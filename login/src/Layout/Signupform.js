@@ -6,6 +6,7 @@ import Container from 'react-bootstrap/Container'
 
 const SignupForm= ()=>{
   const [isLogin,setIsLogin]=useState(true)
+  const [isLoading,setLoading]=useState(false)
 
   const inputEmail=useRef();
     const inputPassword=useRef();
@@ -23,17 +24,15 @@ const SignupForm= ()=>{
    
     const emailAddress=inputEmail.current.value;
     const password=inputPassword.current.value;
-    const userDetails={
-      email:emailAddress,
-      password:password,
-     
-    }
+   
+    let url;
+    setLoading(true)
     if(isLogin){
-    
-
+      url=   'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyD0an-iOy1im1Cjd3_OhzCjGooPUxdc7Es';
     }else{
-      fetch(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyD0an-iOy1im1Cjd3_OhzCjGooPUxdc7Es',
+      url= 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyD0an-iOy1im1Cjd3_OhzCjGooPUxdc7Es';
+    }
+    fetch(url,
         {method:'POST',
           body:JSON.stringify({
             email:emailAddress,
@@ -45,8 +44,9 @@ const SignupForm= ()=>{
           }
         }
         ).then(res=>{
-          if(res.ok){
-            //...
+          setLoading(false)
+             if(res.ok){
+                return res.json()
           }else{
           return(  res.json().then(data=>{
               //show error
@@ -55,13 +55,19 @@ const SignupForm= ()=>{
               if(data && data.error&& data.error.message){
                 errorMessage=data.error.message;
               }
-              alert(errorMessage)
+              throw new Error(errorMessage);
             }))
           }
 
+        }).then((data)=>{
+              console.log(data)//when successful request
+              
+        }).catch((error)=>{
+          alert(error.message)
+
         })
      
-    }
+    
   
 
   }
@@ -83,10 +89,10 @@ const SignupForm= ()=>{
           <Form.Group className="mb-3" controlId="formBasicCheckbox">
         
           </Form.Group>
-          <Button variant="primary" type="submit" onClick={requestHandler} >
-           {isLogin? 'Login':'Signup'}
-        
-          </Button>
+       {!isLoading  && <Button variant="primary" type="submit" onClick={requestHandler} >
+           {isLogin? 'Login':'Signup'}       
+          </Button>}
+          {isLoading && <p>Sending request....</p>}
           <div>
           <Button variant="Link" onClick={onSwithAuthorizationModeHandler}>
             {isLogin?'Create New Account.':'Login with Existing Account'}
