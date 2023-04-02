@@ -1,15 +1,18 @@
-import React,{useRef,useState} from "react";
+import React,{useRef,useState,useContext} from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container'
+import AuthorizationContext from "../Store/AuthorizationContext";
 
 
 const SignupForm= ()=>{
+
+  const ctx=useContext(AuthorizationContext)
   const [isLogin,setIsLogin]=useState(true)
   const [isLoading,setLoading]=useState(false)
 
-  const inputEmail=useRef();
-    const inputPassword=useRef();
+  const inputEmail=useRef("");
+      const inputPassword=useRef("");
 
   const onSwithAuthorizationModeHandler=()=>{
     setIsLogin((prevState)=>!prevState)
@@ -61,7 +64,8 @@ const SignupForm= ()=>{
 
         }).then((data)=>{
               console.log(data)//when successful request
-              
+              ctx.login(data.idToken)
+
         }).catch((error)=>{
           alert(error.message)
 
