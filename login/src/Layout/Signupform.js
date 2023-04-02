@@ -20,7 +20,7 @@ const SignupForm= ()=>{
   const onSubmitHandler=(event)=>{
     event.preventDefault();
   
-    setIsLoading(true)
+   
     const emailAddress=inputEmail.current.value;
     const password=inputPassword.current.value;
     const userDetails={
