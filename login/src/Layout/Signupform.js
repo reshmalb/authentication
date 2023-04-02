@@ -11,15 +11,13 @@ const SignupForm= ()=>{
   const [isLogin,setIsLogin]=useState(true)
   const [isLoading,setLoading]=useState(false)
 
-  const inputEmail=useRef("");
-      const inputPassword=useRef("");
+  const inputEmail=useRef();
+      const inputPassword=useRef();
 
   const onSwithAuthorizationModeHandler=()=>{
     setIsLogin((prevState)=>!prevState)
   }
-  const requestHandler=()=>{
-    
-  }
+  
 
   const onSubmitHandler=(event)=>{
     event.preventDefault();
@@ -48,18 +46,20 @@ const SignupForm= ()=>{
         }
         ).then(res=>{
           setLoading(false)
+
              if(res.ok){
                 return res.json()
-          }else{
-          return(  res.json().then(data=>{
+          }
+          else{
+          return  res.json().then(data=>{
               //show error
-              console.log("error",data)
+          
               let errorMessage="Authentication failed"
-              if(data && data.error&& data.error.message){
-                errorMessage=data.error.message;
-              }
+              // if(data && data.error&& data.error.message){
+              //   errorMessage=data.error.message;
+              // }
               throw new Error(errorMessage);
-            }))
+            });
           }
 
         }).then((data)=>{
@@ -93,7 +93,7 @@ const SignupForm= ()=>{
           <Form.Group className="mb-3" controlId="formBasicCheckbox">
         
           </Form.Group>
-       {!isLoading  && <Button variant="primary" type="submit" onClick={requestHandler} >
+       {!isLoading  && <Button variant="primary" type="submit"  >
            {isLogin? 'Login':'Signup'}       
           </Button>}
           {isLoading && <p>Sending request....</p>}

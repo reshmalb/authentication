@@ -7,7 +7,10 @@ const Header=()=>{
   //const match=useRouteMatch()
       const ctx=useContext(AuthorizationContext);
       const islogIn=ctx.isLoggedin;
+      const logoutHandler=()=>{
+         ctx.logout();
 
+}
     return (
         <>
           <Navbar bg="dark" variant="dark">
@@ -16,7 +19,7 @@ const Header=()=>{
               <Nav className="me-auto ">
            {!islogIn &&  (<Nav.Link as={NavLink} to = '/auth'>Login</Nav.Link>)}    
            {islogIn &&   (<Nav.Link as={NavLink} to = '/profile'>Profile</Nav.Link>)}
-            {islogIn &&  ( <Button> LogOut</Button>)}
+            {islogIn &&  ( <Button onClick={logoutHandler}> LogOut</Button>)}
               </Nav>
             </Container>
           </Navbar>

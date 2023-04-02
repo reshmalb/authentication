@@ -11,7 +11,7 @@ const AuthorizationContext=React.createContext({
 export const AuthorizationProvider=(props)=>{
    const [istoken,setToken]=useState(null)
 
-    const userIsLoggedin=!!istoken;//return true if token is string
+    const userIsLoggedin = !!istoken;//return true if token is string
                                   // and not empty
 
      const loginHandler=(token)=>{
