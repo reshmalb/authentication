@@ -6,6 +6,7 @@ import { Route } from 'react-router-dom';
 import Authn from './Pages/Auth';
 import Login from './Pages/Login';
 import Profile from './Pages/Profile';
+import SignupForm from './Layout/Signupform';
 
 
 
@@ -13,8 +14,8 @@ function App() {
   return (
       <Fragment>
         <Header/>
-        <Route path='/authn'><Authn/></Route>
-        <Route path='/login'><Login/></Route>
+        <Route path='/auth'><Login/></Route>
+        <Route path='/profile'><Profile/></Route>
 
            
       </Fragment>
