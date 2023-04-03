@@ -1,14 +1,17 @@
 import React, { useContext } from "react";
 import { Navbar,Nav,Container,Button} from "react-bootstrap";
-import { NavLink } from "react-router-dom";
+import { NavLink ,useHistory} from "react-router-dom";
 
 import AuthorizationContext from "../Store/AuthorizationContext";
 const Header=()=>{
   //const match=useRouteMatch()
       const ctx=useContext(AuthorizationContext);
       const islogIn=ctx.isLoggedin;
+
+      const history=useHistory();
       const logoutHandler=()=>{
          ctx.logout();
+         history.replace('/auth')
 
 }
     return (
@@ -17,8 +20,11 @@ const Header=()=>{
             <Container>
               <Navbar.Brand >Authentication</Navbar.Brand>
               <Nav className="me-auto ">
-           {!islogIn &&  (<Nav.Link as={NavLink} to = '/auth'>Login</Nav.Link>)}    
+           {!islogIn &&  (<Nav.Link as={NavLink} to = '/login'>Login</Nav.Link>)}    
+           {islogIn &&   (<Nav.Link as={NavLink} to = '/home'>Home</Nav.Link>)}
+
            {islogIn &&   (<Nav.Link as={NavLink} to = '/profile'>Profile</Nav.Link>)}
+
             {islogIn &&  ( <Button onClick={logoutHandler}> LogOut</Button>)}
               </Nav>
             </Container>

@@ -3,9 +3,11 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container'
 import AuthorizationContext from "../Store/AuthorizationContext";
+import {useHistory} from 'react-router-dom'
 
 
 const SignupForm= ()=>{
+  const history=useHistory();
 
   const ctx=useContext(AuthorizationContext)
   const [isLogin,setIsLogin]=useState(true)
@@ -64,6 +66,7 @@ const SignupForm= ()=>{
 
         }).then((data)=>{
               console.log(data)//when successful request
+              history.replace('/home')
               ctx.login(data.idToken)
 
         }).catch((error)=>{

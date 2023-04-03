@@ -1,10 +1,12 @@
 import React,{useContext, useRef} from "react";
 import AuthorizationContext from "../Store/AuthorizationContext";
+import { useHistory } from "react-router-dom";
 
 
 
 const Profile= ()=>{
     const ctx=useContext(AuthorizationContext)   ;
+    const history=useHistory();
 
     const inputpassword=useRef();
     const onSubmitHandler=(e)=>{
@@ -26,6 +28,7 @@ const Profile= ()=>{
        }).then(resp=>{
         if(resp.ok){
             alert("password changed successfully...")
+            history.replace('/home')
         }
        })
     }
