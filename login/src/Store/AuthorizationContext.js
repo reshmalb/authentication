@@ -9,16 +9,19 @@ const AuthorizationContext=React.createContext({
 })
 
 export const AuthorizationProvider=(props)=>{
-   const [istoken,setToken]=useState(null)
+   const initial_state=localStorage.getItem('token')
+   const [istoken,setToken]=useState(initial_state)
 
     const userIsLoggedin = !!istoken;//return true if token is string
                                   // and not empty
 
      const loginHandler=(token)=>{
         setToken(token)
+        localStorage.setItem('token',token)
      }     
      const logoutHandler=()=>{
         setToken(null)
+        localStorage.removeItem('token')
      }    
      
      const context={
