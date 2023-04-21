@@ -1,8 +1,10 @@
+import { log } from "console";
 import React,{useState} from "react";  
 
 
 const AuthorizationContext=React.createContext({
     token:'',
+    userDetails:{},
     isLoggedin:false,
     login:(token)=>{},
     logout:()=>{}
@@ -11,6 +13,7 @@ const AuthorizationContext=React.createContext({
 export const AuthorizationProvider=(props)=>{
    const initial_state=localStorage.getItem('token')
    const [istoken,setToken]=useState(initial_state)
+   const [userDetails,setUserdetails]=useState({})
     
    const autoLogoutHandler=(timer)=>{
       const interval= setTimeout(() => {
@@ -28,10 +31,14 @@ export const AuthorizationProvider=(props)=>{
     const userIsLoggedin = !!istoken;//return true if token is string
                                   // and not empty
 
-     const loginHandler=(token)=>{
+     const loginHandler=(token,user)=>{
+      
         setToken(token)
+        setUserdetails(user)
+
+        console.log("user in atx",userDetails);
         localStorage.setItem('token',token)
-       autoLogoutHandler(5000)
+         autoLogoutHandler(5000)
      }     
      const logoutHandler=()=>{
         setToken(null)
@@ -41,6 +48,7 @@ export const AuthorizationProvider=(props)=>{
      
      const context={
         token:istoken,
+        userDetails:userDetails,
         isLoggedin:userIsLoggedin,
         login:loginHandler,
         logout:logoutHandler
